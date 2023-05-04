@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { addTodos } from "../redux/reducer";
 import { GoPlus } from "react-icons/go";
 
+import { motion } from "framer-motion";
+
 const mapStateProps = (state) => {
   return {
     todos: state,
@@ -23,12 +25,16 @@ const Todos = (props) => {
   };
 
   const add = () => {
-    props.addTodo({
-      id: Math.floor(Math.random() * 1000),
-      item: todo,
-      completed: false,
-    });
-    setTodo("");
+    if (todo === "") {
+      alert("Input is Empty");
+    } else {
+      props.addTodo({
+        id: Math.floor(Math.random() * 1000),
+        item: todo,
+        completed: false,
+      });
+      setTodo("");
+    }
   };
   // console.log("props from store", props);
   return (
@@ -39,9 +45,14 @@ const Todos = (props) => {
         className="todo-input"
         value={todo}
       />
-      <button className="add-btn" onClick={() => add()}>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="add-btn"
+        onClick={() => add()}
+      >
         <GoPlus />
-      </button>
+      </motion.button>
       <br />
     </div>
   );
